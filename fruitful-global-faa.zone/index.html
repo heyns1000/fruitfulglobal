@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fruitful Global</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        background-color: var(--color-bg-primary);
+      }
+
+      :root {
+        /* Default to day theme */
+        --color-bg-primary: #FEFBF6;
+        --color-bg-secondary: rgba(255, 255, 255, 0.8);
+        --color-bg-tertiary: #f9fafb; /* gray-50 */
+        --color-text-primary: #1f2937; /* gray-800 */
+        --color-text-secondary: #6b7280; /* gray-500 */
+        --color-text-tertiary: #9ca3af; /* gray-400 */
+        --color-text-accent: #ffffff;
+        --color-primary: #16a34a; /* green-600 */
+        --color-primary-hover: #15803d; /* green-700 */
+        --color-primary-light: #dcfce7; /* green-100 */
+        --color-primary-text: #166534; /* green-800 */
+        --color-border: #e5e7eb; /* gray-200 */
+        --color-card-bg: rgba(255, 255, 255, 0.6);
+        --color-card-border: rgba(229, 231, 235, 0.8);
+        --color-input-bg: #ffffff;
+        --color-input-border: #d1d5db; /* gray-300 */
+        --color-success: #16a34a; /* green-600 */
+        --color-error: #dc2626; /* red-600 */
+        --color-error-bg: rgba(220, 38, 38, 0.1);
+        --color-tag-code-bg: #dbeafe; --color-tag-code-text: #1e40af;
+        --color-tag-doc-bg: #dcfce7; --color-tag-doc-text: #166534;
+        --color-tag-board-bg: #fef9c3; --color-tag-board-text: #854d0e;
+        --color-tag-mockup-bg: #fce7f3; --color-tag-mockup-text: #9d174d;
+      }
+
+      html[data-theme='night'] {
+        --color-bg-primary: #111827; /* gray-900 */
+        --color-bg-secondary: rgba(31, 41, 55, 0.8); /* gray-800 */
+        --color-bg-tertiary: #1f2937; /* gray-800 */
+        --color-text-primary: #f9fafb; /* gray-50 */
+        --color-text-secondary: #9ca3af; /* gray-400 */
+        --color-text-tertiary: #6b7280; /* gray-500 */
+        --color-text-accent: #ffffff;
+        --color-primary: #22c55e; /* green-500 */
+        --color-primary-hover: #16a34a; /* green-600 */
+        --color-primary-light: rgba(34, 197, 94, 0.15);
+        --color-primary-text: #22c55e; /* green-500 */
+        --color-border: #374151; /* gray-700 */
+        --color-card-bg: rgba(31, 41, 55, 0.6);
+        --color-card-border: rgba(55, 65, 81, 0.8);
+        --color-input-bg: #1f2937; /* gray-800 */
+        --color-input-border: #4b5563; /* gray-600 */
+        --color-success: #22c55e; /* green-500 */
+        --color-error: #f87171; /* red-400 */
+        --color-error-bg: rgba(248, 113, 113, 0.1);
+        --color-tag-code-bg: #1e293b; --color-tag-code-text: #60a5fa;
+        --color-tag-doc-bg: #1c3224; --color-tag-doc-text: #4ade80;
+        --color-tag-board-bg: #3b331d; --color-tag-board-text: #fde047;
+        --color-tag-mockup-bg: #3b202b; --color-tag-mockup-text: #f472b6;
+      }
+
+      html[data-theme='jungle'] {
+        --color-bg-primary: #1A2A2A;
+        --color-bg-secondary: rgba(24, 58, 49, 0.8);
+        --color-bg-tertiary: #2F4F4F;
+        --color-text-primary: #EAE7DC;
+        --color-text-secondary: #B0A690;
+        --color-text-tertiary: #8A7E6B;
+        --color-text-accent: #ffffff;
+        --color-primary: #84A98C;
+        --color-primary-hover: #6F917A;
+        --color-primary-light: rgba(132, 169, 140, 0.15);
+        --color-primary-text: #84A98C;
+        --color-border: #52796F;
+        --color-card-bg: rgba(47, 62, 53, 0.6);
+        --color-card-border: rgba(82, 121, 111, 0.8);
+        --color-input-bg: #2F4F4F;
+        --color-input-border: #52796F;
+        --color-success: #84A98C;
+        --color-error: #D98C8C;
+        --color-error-bg: rgba(217, 140, 140, 0.1);
+        --color-tag-code-bg: #3D5A80; --color-tag-code-text: #98C1D9;
+        --color-tag-doc-bg: #52796F; --color-tag-doc-text: #CAD2C5;
+        --color-tag-board-bg: #895737; --color-tag-board-text: #D8AC9C;
+        --color-tag-mockup-bg: #6D4C41; --color-tag-mockup-text: #BCAAA4;
+      }
+    </style>
+    <style>
+      .global-index-view { font-family: 'Inter', sans-serif; }
+      .global-index-view .main-card {
+            background-color: var(--color-bg-tertiary);
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        html[data-theme='night'] .global-index-view .main-card {
+            background-color: #2d3748;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+        }
+        .global-index-view .section-title {
+            border-bottom: 3px solid #63b3ed;
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+            color: #2b6cb0;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        html[data-theme='night'] .global-index-view .section-title {
+            color: #90cdf4;
+            border-color: #4299e1;
+        }
+        .global-index-view .country-section {
+            background-color: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        html[data-theme='night'] .global-index-view .country-section {
+            background-color: #4a5568;
+            border-color: #2d3748;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .global-index-view .country-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        }
+        html[data-theme='night'] .global-index-view .country-section:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        }
+        .global-index-view .country-title {
+            color: #3182ce;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            font-size: 1.75rem;
+            border-bottom: 2px dashed var(--color-border);
+            padding-bottom: 0.5rem;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        html[data-theme='night'] .global-index-view .country-title {
+            color: #90cdf4;
+            border-color: #63b3ed;
+        }
+        .global-index-view .sector-group { margin-bottom: 1.25rem; }
+        .global-index-view .sector-title {
+            color: var(--color-text-secondary);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            border-left: 4px solid #90cdf4;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        html[data-theme='night'] .global-index-view .sector-title {
+            color: #cbd5e0;
+            border-color: #63b3ed;
+        }
+        .global-index-view .brand-list { list-style: none; padding-left: 1.5rem; margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .global-index-view .brand-list li {
+            background-color: #ebf8ff;
+            border: 1px solid #bee3f8;
+            border-radius: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+            color: #2c5282;
+            white-space: nowrap;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.2s ease-in-out, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        html[data-theme='night'] .global-index-view .brand-list li { background-color: #2b6cb0; border-color: #4299e1; color: #e2e8f0; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
+        .global-index-view .brand-list li:hover { background-color: #cce0ff; }
+        html[data-theme='night'] .global-index-view .brand-list li:hover { background-color: #4299e1; }
+        .global-index-view #map { height: 600px; width: 100%; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        html[data-theme='night'] .global-index-view #map { filter: invert(90%) hue-rotate(180deg); }
+        .global-index-view .search-container { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .global-index-view .search-container input {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-input-border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            color: var(--color-text-primary);
+            background-color: var(--color-input-bg);
+            transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        .global-index-view .search-container input::placeholder { color: var(--color-text-tertiary); }
+        .global-index-view .search-container button {
+            padding: 0.75rem 1.5rem;
+            background-color: #4299e1;
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .global-index-view .search-container button:hover { background-color: #2b6cb0; transform: translateY(-2px); }
+        .global-index-view .highlight { background-color: yellow; color: black; padding: 1px 2px; border-radius: 3px; }
+        html[data-theme='night'] .global-index-view .highlight { background-color: #f6e05e; color: #1a202c; }
+        .global-index-view .repo-url-list { list-style: none; padding: 0; }
+        .global-index-view .repo-url-list li { margin-bottom: 0.5rem; font-size: 0.95rem; word-break: break-all; }
+        .global-index-view .repo-url-list li a { color: #3182ce; text-decoration: none; transition: color 0.2s ease; }
+        .global-index-view .repo-url-list li a:hover { color: #2b6cb0; text-decoration: underline; }
+        .global-index-view .repo-url-group { margin-bottom: 1.5rem; padding: 1rem; background-color: var(--color-bg-tertiary); border-radius: 0.75rem; border: 1px solid var(--color-border); }
+        html[data-theme='night'] .global-index-view .repo-url-group { background-color: #4a5568; border-color: #63b3ed; }
+        .global-index-view .repo-url-group h4 { font-weight: 700; color: var(--color-text-primary); margin-bottom: 0.75rem; }
+        
+        .global-footer { background-color: #f5f5f7; color: #6b7280; border-top: 1px solid #e5e7eb; }
+        html[data-theme='night'] .global-footer { background-color: #1a1a1a; color: #9ca3af; border-top-color: #374151; }
+        .global-footer a:hover { color: var(--color-text-primary); }
+    </style>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPG8dG29cl0TvYRGyLozejGed5Wj5Ab80"></script>
+  </body>
+</html>

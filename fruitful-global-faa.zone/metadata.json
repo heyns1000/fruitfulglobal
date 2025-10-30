@@ -1,0 +1,7 @@
+{
+  "name": "Fruitful Global",
+  "description": "An interactive application exploring the Fruitful Global ecosystem with Gemini-powered tools.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
